@@ -2,7 +2,7 @@ package myVelib;
 
 import java.util.concurrent.TimeUnit;
 
-public class VlibreCard extends Card{
+public class NoCard extends Card{
 	@Override
 	public int getCharge(Location loc, User user) {
 		if (loc.getArrival().getTypeStation().equals("Plus")) {
@@ -10,28 +10,14 @@ public class VlibreCard extends Card{
 		}
 		long duration = Card.getDuration(loc.getTimeStart(), loc.getTimeStart(), TimeUnit.MINUTES);
 		long hours = duration/60;
-		long min = duration%60;
 		if (loc.getBike().getTypeBike().equals("Mechanic")) {
-			if(hours<1) {
-				return 0;
-			}
-			if (min<this.getTimeCredit()) {
-				this.setTimeCredit(getTimeCredit()-(int)min);
-				hours--;
-			}
-			return (int)hours;
+			return (int) (hours)+1;
 		}
 		else
 			if(loc.getBike().getTypeBike().equals("Electric")) {
-				if(hours<1) {
-					return 0;
-				}
-				if (min<this.getTimeCredit()) {
-					this.setTimeCredit(getTimeCredit()-(int)min);
-					hours--;
-				}
-				return 2*(int)hours+1;
+				return 2*(int)hours+2;
 			}
 		return 0;
-	}
+		}
+
 }
