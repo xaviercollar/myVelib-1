@@ -8,7 +8,7 @@ public class NoCard extends Card{
 		if (loc.getArrival().getTypeStation().equals("Plus")) {
 			this.setTimeCredit(this.getTimeCredit()+5);
 		}
-		long duration = Card.getDuration(loc.getTimeStart(), loc.getTimeStart(), TimeUnit.MINUTES);
+		long duration = Card.getDuration(loc.getTimeStart(), loc.getTimeEnd(), TimeUnit.MINUTES);
 		long hours = duration/60;
 		if (loc.getBike().getTypeBike().equals("Mechanic")) {
 			return (int) (hours)+1;

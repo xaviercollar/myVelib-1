@@ -15,8 +15,8 @@ public class Station implements Observable {
 	protected static Long compteur=(long) 0;
 	protected Long stationID;
 	protected String name;
-	protected ArrayList<Ride> leavingRideList;
-	protected ArrayList<Ride> incomingRideList;
+	protected ArrayList<Location> leavingRideList;
+	protected ArrayList<Location> incomingRideList;
 	/**
 	 * Ce contructeur peux être amené à renvoyer une erreur dans le cas où le type de station ou le type d'état n'a pas été écrit correctement ou n'existe pas
 	 * @param parkingSlotList
@@ -38,8 +38,8 @@ public class Station implements Observable {
 				this.state = state;
 				this.position = position;
 				this.name = name;
-				this.leavingRideList=new ArrayList<Ride>();
-				this.incomingRideList=new ArrayList<Ride>();
+				this.leavingRideList=new ArrayList<Location>();
+				this.incomingRideList=new ArrayList<Location>();
 			}
 			else {
 				throw new BadStateStationCreationException(state);
@@ -135,19 +135,19 @@ public class Station implements Observable {
 	}
 	
 	@Override
-	public void registerStartRide(Ride ride) {
-		this.leavingRideList.add(ride);		
+	public void registerStartRide(Location loc) {
+		this.leavingRideList.add(loc);		
 	}
 	
 	@Override
-	public void registerEndRide(Ride ride) {
-		this.incomingRideList.add(ride);
+	public void registerEndRide(Location loc) {
+		this.incomingRideList.add(loc);
 	}
 	
 	@Override
-	public void removeRide(Ride ride) {
-		this.leavingRideList.remove(ride);
-		this.incomingRideList.remove(ride);
+	public void removeRide(Location loc) {
+		this.leavingRideList.remove(loc);
+		this.incomingRideList.remove(loc);
 	}
 	@Override
 	public void notifyStartRide() {

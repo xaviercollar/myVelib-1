@@ -1,11 +1,11 @@
 package myVelib;
 
 public interface Observable {
-	public void registerStartRide(Ride ride);
+	public void registerStartRide(Location loc);
 	
-	public void registerEndRide(Ride ride);
+	public void registerEndRide(Location loc);
 	
-	public void removeRide(Ride ride);
+	public void removeRide(Location loc);
 	
 	public void notifyStartRide();
 	

@@ -43,14 +43,46 @@ public class ParkingSlot {
 		else{
 			throw new BadParkingSlotCreationException(state);}
 	}
+	
+	public Bicycle getBike() throws BadParkingSlotCreationException {
+		if (state=="Occupied") {
+			this.setState("Free");
+				Bicycle bike = this.getBicycle();
+				this.setBicycle(null);
+				System.out.println(bike.typeBike+" bike "+bike.bikeID+"has been retrieved from parking slot"+this.slotID);
+				return bike;		
+			}
+		else {
+			return null;
+			}
+	}
+	
+	public boolean storeBike(Bicycle bike) throws BadParkingSlotCreationException {
+		if (state!="Free") {
+			return false;
+		}
+		else {
+			this.setState("Occupied");
+			this.bicycle=bike;
+			System.out.println(bike.typeBike+" bike "+bike.bikeID+"has been parked in parking slot"+this.slotID);
+			return true;
+		}
+	}
+		
+		
 	public Long getSlotID() {
 		return slotID;
 	}
 	public Bicycle getBicycle() {
 		return bicycle;
 	}
+	
 	public ArrayList<TimeState> getHistory() {
 		return history;
 	}
+	public void setBicycle(Bicycle bicycle) {
+		this.bicycle = bicycle;
+	}
+	
 	
 }

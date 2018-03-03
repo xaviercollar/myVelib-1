@@ -1,6 +1,7 @@
 package myVelib;
 
 import java.util.ArrayList;
+
 /**
  * Classe Reseau permettant de rassembler la liste des stations, la liste des utilisateurs, la liste des locations
  * afin de permettre de faire les statistiques et d'acceder à diverses informations

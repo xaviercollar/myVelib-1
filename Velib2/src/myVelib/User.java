@@ -10,12 +10,37 @@ public class User {
 	private double totalCharges;
 	private int earnedCredits;
 	static Random gen = new Random();
+	private Location loc;
+	private Card card;
 	
 	public User(String name, String firstName) {
 		this.userID=gen.nextLong();
 		this.firstName=firstName;
 		this.name=name;
+		this.loc=null;
+		this.card=new NoCard();
 	}
+	
+	public void getStatistics() {
+		System.out.println("User "+userID+": "+firstName+" "+name);
+		System.out.println("Number of locations: "+rideNumber);
+		System.out.println("Total location time: "+totalTime+" minutes");
+		System.out.println("Total charges payed: "+totalCharges+"€");
+		System.out.println("Earned Credits: "+earnedCredits+" minutes");	
+	}
+	
+	public void subscribeVlibre() {
+		this.card=new VlibreCard();
+	}
+	
+	public void subscribeVmax() {
+		this.card=new VmaxCard();
+	}
+	
+	/*
+	 * Getters and setters methods for all the User class attributes
+	 */
+	
 	
 	public String getName() {
 		return name;
@@ -60,12 +85,22 @@ public class User {
 		this.earnedCredits = earnedCredits;
 	}
 	
-	public void getStatistics() {
-		System.out.println("User "+userID+": "+firstName+" "+name);
-		System.out.println("Number of locations: "+rideNumber);
-		System.out.println("Total location time: "+totalTime+" minutes");
-		System.out.println("Total charges payed: "+totalCharges+"€");
-		System.out.println("Earned Credits: "+earnedCredits+" minutes");
-	
+	public Location getLoc() {
+		return loc;
 	}
+
+	public void setLocation(Location loc) {
+		this.loc = loc;
+	}
+
+	public Card getCard() {
+		return card;
+	}
+
+	public void setCard(Card card) {
+		this.card = card;
+	}
+
+	
+	
 }

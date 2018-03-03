@@ -2,56 +2,218 @@ package myVelib;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-public class Location {
+public class Location implements Observer{
 	private Date timeStart;
 	private Date timeEnd;
-	private Station start;
+	private Station departure;
 	private Station arrival;
 	private Bicycle bike;
+	private GPScoord start;
+	private GPScoord end;
+	private boolean hasStarted;
+	static Reseau res;
+	private User user;
 	
-	public Location(Station start, Bicycle bike) {
-		this.timeStart=Calendar.getInstance().getTime();
+	public Location(User user, GPScoord start, GPScoord end) {
+		this.user=user;
 		this.start=start;
-		this.bike=bike;
+		this.end=end;
+		this.hasStarted=false;
+		this.user.setLocation(this);
+	}
+
+	/**
+	 * This method tries to retrieve a bike from the departure station. 
+	 * It goes through all of the station's parking slot until it has found one that is holding a bike.
+	 * If a bike is found, the location starts, hence the start time of the location is defined and a bike is linked to this location.
+	 * If no bike is found, then the method gives en error message and finds another departure station fitting with the user's settings.
+	 */
+	
+	public void takeBike(Station departure) throws BadParkingSlotCreationException{
+		while(bike==null) {
+			for(ParkingSlot pS : departure.parkingSlotList) {
+				bike=pS.getBicycle();
+			}
+			System.out.println("No bike is available in this station");
+			break;
+		}
+		if(bike!=null) {
+			this.departure=departure;
+			this.timeStart=Calendar.getInstance().getTime();
+			this.hasStarted=true;
+			this.user.setRideNumber(user.getRideNumber()+1);
+		}
+		else {
+			this.computeStart();
+		}
 	}
 	
-	public void returnBike(Station end) {
-		this.arrival=end;
-		this.timeEnd=Calendar.getInstance().getTime();
+	/**
+	 * This method tries to store its bike in the arrival station. 
+	 * It goes through all of the station's parking slot until it has found one that isn't holding a bike or free.
+	 * If such a parking slot is found, the location ends, hence the end time of the location is defined, the bike is unlinked to the location
+	 * and the cost of the location is computed.
+	 * If no free parking slot is found, this method outputs an error message and finds another arrival station fitting with the user's settings.
+	 */
+	
+	public void returnBike(Station arrival) throws BadParkingSlotCreationException {
+		boolean stored = false;
+		while(stored==false) {
+			for(ParkingSlot pS : arrival.parkingSlotList){
+				stored = pS.storeBike(this.bike);			
+			}
+			System.out.println("No parking slot is available in this station");
+			break;
+		}
+		if(stored==true) {
+			this.arrival=arrival;
+			this.timeEnd=Calendar.getInstance().getTime();
+			int duration = (int)Card.getDuration(timeStart, timeEnd, TimeUnit.MINUTES);
+			int charge = this.user.getCard().getCharge(this, user);
+			this.user.setTotalTime(user.getTotalTime()+(int)duration);
+			this.user.setTotalCharges(user.getTotalCharges()+charge);
+			this.bike=null;
+			System.out.println("Bike location charged "+charge+"€");
+			this.user.setLocation(null);
+			
+		}
+		else {
+			this.computeEnd();
+		}
+				
 	}
 	
+	public void computeStart() {
+		double dist =99999999999999999.9;
+		Station startStation = null;
+		for (Station stat : res.getStationList()) {
+			if(stat.state.equals("On service")) {
+				if(stat.availableBikeE()||stat.availableBikeM()) {
+					if (dist>this.start.getDistance(stat.getPosition())) {
+						dist=this.start.getDistance(stat.getPosition());
+						startStation=stat;
+					}
+				}
+			}
+		}
+		if(startStation!=null) { 
+			startStation.registerStartRide(this);
+			this.departure=startStation;
+		}
+		else
+			System.out.println("No station fitting your criteria is availabale for departure, please try again later or change your ride settings");
+	}
+	
+	public void computeEnd() {
+		double dist =99999999999999999.9;
+		Station endStation = null;
+		for (Station stat : res.getStationList()) {
+			if(stat.state.equals("On service")) {
+				if(stat.availableParkingSlot()) {
+					if (dist>this.end.getDistance(stat.getPosition())) {
+						dist=this.end.getDistance(stat.getPosition());
+						endStation=stat;					
+					}
+				}
+			}
+		}
+		if(endStation!=null) { 
+			endStation.registerEndRide(this);
+			this.arrival=endStation;
+		}
+		else
+			System.out.println("No station fitting your criteria is availabale for arrival, please try again later or change your ride settings");
+	}
+	
+	@Override
+	public void updateStart(Station departure) {
+		if (this.hasStarted==false) {
+			System.out.println("The departure station isn't available anymore.");
+			System.out.println("Please proceed to this new station to get your bike");
+			this.computeStart();
+		}
+	}
+
+	@Override
+	public void updateArrival(Station arrival) {
+		System.out.println("The destination station isn't available anymore.");
+		System.out.println("Please proceed to this new station");	
+		this.computeEnd();
+	}
+	
+
 	public Date getTimeStart() {
 		return timeStart;
 	}
+	
 	public void setTimeStart(Date timeStart) {
 		this.timeStart = timeStart;
 	}
+
 	public Date getTimeEnd() {
 		return timeEnd;
 	}
+	
 	public void setTimeEnd(Date timeEnd) {
 		this.timeEnd = timeEnd;
 	}
-	public Station getStart() {
-		return start;
-	}
-	public void setStart(Station start) {
-		this.start = start;
-	}
+
 	public Station getArrival() {
 		return arrival;
 	}
+
 	public void setArrival(Station arrival) {
 		this.arrival = arrival;
 	}
+	
 	public Bicycle getBike() {
 		return bike;
 	}
+	
 	public void setBike(Bicycle bike) {
 		this.bike = bike;
 	}
 	
-	
+	public Station getDeparture() {
+		return departure;
+	}
+
+	public void setDeparture(Station departure) {
+		this.departure = departure;
+	}
+
+	public GPScoord getEnd() {
+		return end;
+	}
+
+	public void setEnd(GPScoord end) {
+		this.end = end;
+	}
+
+	public boolean isHasStarted() {
+		return hasStarted;
+	}
+
+	public void setHasStarted(boolean hasStarted) {
+		this.hasStarted = hasStarted;
+	}
+
+	public void setStart(GPScoord start) {
+		this.start = start;
+	}
+
+	public GPScoord getStart() {
+		return start;
+	}
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 
 }
