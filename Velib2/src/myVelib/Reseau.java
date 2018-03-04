@@ -16,7 +16,6 @@ public class Reseau {
 	protected ArrayList<Station> stationList;
 	protected ArrayList<User> userList;
 	protected ArrayList<Location> locationList;
-	private String name;
 	
 	public Reseau(ArrayList<Station> stationList, ArrayList<User> userList, ArrayList<Location> locationList) {
 		super();
