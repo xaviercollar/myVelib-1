@@ -15,6 +15,8 @@ public class Station implements Observable {
 	protected static Long compteur=(long) 0;
 	protected Long stationID;
 	protected String name;
+	private int freeSlots;
+	private int freeBikes;
 	protected ArrayList<Location> leavingRideList;
 	protected ArrayList<Location> incomingRideList;
 	/**
@@ -94,7 +96,19 @@ public class Station implements Observable {
 		return name;
 	}
 	
-	/* 
+	public int getFreeSlots() {
+		return freeSlots;
+	}
+	public void setFreeSlots(int freeSlots) {
+		this.freeSlots = freeSlots;
+	}
+	public int getFreeBikes() {
+		return freeBikes;
+	}
+	public void setFreeBikes(int freeBikes) {
+		this.freeBikes = freeBikes;
+	}
+	/**
 	 * Method to check if the station currently holds an electrical bike in one of its parking slots.
 	 */	
 	public boolean availableBikeM() {
@@ -108,8 +122,9 @@ public class Station implements Observable {
 		return false;
 	}
 	
-	/* 
+	/**
 	 * Method to check if the station currently holds an electrical bike in one of its parking slots.
+	 * @return
 	 */
 	public boolean availableBikeE() {
 		for (ParkingSlot pS : parkingSlotList) {
@@ -122,20 +137,21 @@ public class Station implements Observable {
 		return false;
 	}
 		
-	/* 
+	/**
 	 * Method to check if the station currently has a free parking slot.
+	 * @return
 	 */
+	
 	public boolean availableParkingSlot() {
-		for (ParkingSlot pS : parkingSlotList) {
-			if (pS.state.equals("Free")) {
+			if (this.freeSlots>0) {
 				return true;
-			}
 		}
 		return false;
 	}
 	
 	public void addParkingSlot(ParkingSlot pS) {
 		parkingSlotList.add(pS);
+		pS.setStation(this);
 	}
 	
 	public void removeParkingSlot(ParkingSlot pS) {
@@ -170,6 +186,10 @@ public class Station implements Observable {
 	@Override
 	public String toString() {
 		return "Station"+ stationID+" "+name+" ("+position+") Parking Slots:" + parkingSlotList;
+	}
+	public void calcul() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

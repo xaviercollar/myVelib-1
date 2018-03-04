@@ -12,6 +12,7 @@ public class User {
 	static Random gen = new Random();
 	private Location loc;
 	private Card card;
+	private GPScoord position;
 	
 	public User(String name, String firstName) {
 		this.userID=gen.nextLong();
@@ -99,6 +100,19 @@ public class User {
 
 	public void setCard(Card card) {
 		this.card = card;
+	}
+
+	public GPScoord getPosition() {
+		return position;
+	}
+
+	public void setPosition(GPScoord position) {
+		this.position = position;
+	}
+
+	@Override
+	public String toString() {
+		return "User "+ userID;
 	}
 
 	

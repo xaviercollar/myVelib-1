@@ -12,19 +12,21 @@ public class ParkingSlot {
 	protected String state;
 	protected Bicycle bicycle;
 	protected ArrayList<TimeState> history;
+	private Station station;
 	/**
 	 * Ce contructeur peux être amener à renvoyer une erreur dans le cas où le type d'état n'a pas été écrit correctement ou n'existe pas
 	 * @param bicycle
 	 * @param State
 	 * @throws BadParkingSlotCreationException
 	 */
-	public ParkingSlot(Bicycle bicycle, String State) throws BadParkingSlotCreationException {
+	public ParkingSlot(Bicycle bicycle, String State, Station station) throws BadParkingSlotCreationException {
 		super();
 		if (State=="Occupied" || State=="Free" ||State=="Broken"){
 		compteur=compteur+1;
 		slotID=compteur;
 		this.bicycle = bicycle;
 		this.state= State;
+		this.station=station;
 		this.history = new ArrayList<TimeState>();}
 		else{
 			throw new BadParkingSlotCreationException(State);}
@@ -40,7 +42,8 @@ public class ParkingSlot {
 	 */
 	public void setState(String state) throws BadParkingSlotCreationException {
 		if (state=="Occupied" || state=="Free" ||state=="Broken"){
-			this.state = state;}
+			this.state = state;
+			station.calcul()}
 		else{
 			throw new BadParkingSlotCreationException(state);}
 	}
@@ -83,6 +86,14 @@ public class ParkingSlot {
 	}
 	public void setBicycle(Bicycle bicycle) {
 		this.bicycle = bicycle;
+	}
+	
+	public Station getStation() {
+		return station;
+	}
+
+	public void setStation(Station station) {
+		this.station = station;
 	}
 
 	@Override

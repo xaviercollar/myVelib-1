@@ -22,6 +22,7 @@ public class Reseau {
 		this.stationList = stationList;
 		this.userList = userList;
 		this.locationList = locationList;
+		Location.initializeLocation(this);
 	}
 	
 	public Reseau() {
@@ -29,6 +30,7 @@ public class Reseau {
 		this.stationList = new ArrayList<Station>();
 		this.userList = new ArrayList<User>();
 		this.locationList = new ArrayList<Location>();
+		Location.initializeLocation(this);
 	}
 	public ArrayList<Station> getStationList() {
 		return stationList;

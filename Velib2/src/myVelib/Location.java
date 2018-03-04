@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import ridePolicies.RidePolicy;
+
 public class Location implements Observer{
 	private Date timeStart;
 	private Date timeEnd;
@@ -13,8 +15,9 @@ public class Location implements Observer{
 	private GPScoord start;
 	private GPScoord end;
 	private boolean hasStarted;
-	static Reseau res;
+	static Reseau reseau;
 	private User user;
+	private RidePolicy ridePolicy;
 	
 	public Location(User user, GPScoord start, GPScoord end) {
 		this.user=user;
@@ -22,6 +25,20 @@ public class Location implements Observer{
 		this.end=end;
 		this.hasStarted=false;
 		this.user.setLocation(this);
+		reseau.addLocation(this);
+	}
+	
+	public Location(User user, Station departure) {
+		this.user=user;
+		this.departure=departure;
+		this.hasStarted=true;
+		this.timeStart=Calendar.getInstance().getTime();
+		this.user.setLocation(this);
+		reseau.addLocation(this);
+	}
+	
+	public static void initializeLocation(Reseau res) {
+		Location.reseau=res;
 	}
 
 	/**
@@ -88,7 +105,7 @@ public class Location implements Observer{
 	public void computeStart() {
 		double dist =99999999999999999.9;
 		Station startStation = null;
-		for (Station stat : res.getStationList()) {
+		for (Station stat : reseau.getStationList()) {
 			if(stat.state.equals("On service")) {
 				if(stat.availableBikeE()||stat.availableBikeM()) {
 					if (dist>this.start.getDistance(stat.getPosition())) {
@@ -109,7 +126,7 @@ public class Location implements Observer{
 	public void computeEnd() {
 		double dist =99999999999999999.9;
 		Station endStation = null;
-		for (Station stat : res.getStationList()) {
+		for (Station stat : reseau.getStationList()) {
 			if(stat.state.equals("On service")) {
 				if(stat.availableParkingSlot()) {
 					if (dist>this.end.getDistance(stat.getPosition())) {
@@ -213,6 +230,14 @@ public class Location implements Observer{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public RidePolicy getRidePolicy() {
+		return ridePolicy;
+	}
+
+	public void setRidePolicy(RidePolicy ridePolicy) {
+		this.ridePolicy = ridePolicy;
 	}
 
 

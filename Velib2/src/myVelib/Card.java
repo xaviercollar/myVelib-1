@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class Card {
 	private int timeCredit;
-	private String typeCard;
 	
 	public int getCharge(Location loc, User user) {
 		return 1;
@@ -26,12 +25,4 @@ public abstract class Card {
 	public void setTimeCredit(int timeCredit) {
 		this.timeCredit = timeCredit;
 	}
-	public String getTypeCard() {
-		return typeCard;
-	}
-	public void setTypeCard(String typeCard) {
-		this.typeCard = typeCard;
-	}
-	
-	
 }
