@@ -121,7 +121,7 @@ public class Station implements Observable {
 		}
 		return false;
 	}
-	
+		
 	/* 
 	 * Method to check if the station currently has a free parking slot.
 	 */
@@ -132,6 +132,14 @@ public class Station implements Observable {
 			}
 		}
 		return false;
+	}
+	
+	public void addParkingSlot(ParkingSlot pS) {
+		parkingSlotList.add(pS);
+	}
+	
+	public void removeParkingSlot(ParkingSlot pS) {
+		parkingSlotList.remove(pS);
 	}
 	
 	@Override
@@ -159,6 +167,11 @@ public class Station implements Observable {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public String toString() {
+		return "Station"+ stationID+" "+name+" ("+position+") Parking Slots:" + parkingSlotList;
+	}
+	
 	
 	
 }

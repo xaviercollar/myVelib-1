@@ -25,4 +25,11 @@ public class GPScoord {
 	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
+
+	@Override
+	public String toString() {
+		return latittude + "," + longitude;
+	}
+	
+	
 }

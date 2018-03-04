@@ -16,12 +16,20 @@ public class Reseau {
 	protected ArrayList<Station> stationList;
 	protected ArrayList<User> userList;
 	protected ArrayList<Location> locationList;
+	private String name;
 	
 	public Reseau(ArrayList<Station> stationList, ArrayList<User> userList, ArrayList<Location> locationList) {
 		super();
 		this.stationList = stationList;
 		this.userList = userList;
 		this.locationList = locationList;
+	}
+	
+	public Reseau() {
+		super();
+		this.stationList = new ArrayList<Station>();
+		this.userList = new ArrayList<User>();
+		this.locationList = new ArrayList<Location>();
 	}
 	public ArrayList<Station> getStationList() {
 		return stationList;
@@ -31,6 +39,35 @@ public class Reseau {
 	}
 	public ArrayList<Location> getLocationList() {
 		return locationList;
+	}
+	
+	public void addStation(Station station) {
+		stationList.add(station);
+	}
+	
+	public void addUser(User user) {
+		userList.add(user);
+	}
+	
+	public void addLocation(Location loc) {
+		locationList.add(loc);
+	}
+	
+	public void removeStation(Station station) {
+		stationList.remove(station);
+	}
+	
+	public void removeUser(User user) {
+		userList.remove(user);
+	}
+	
+	public void removeLocation(Location loc) {
+		locationList.remove(loc);
+	}
+
+	@Override
+	public String toString() {
+		return "Reseau [stationList=" + stationList + ", userList=" + userList + ", locationList=" + locationList + "]";
 	}
 	
 	

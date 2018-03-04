@@ -29,6 +29,7 @@ public class ParkingSlot {
 		else{
 			throw new BadParkingSlotCreationException(State);}
 	}
+	
 	public String getState() {
 		return state;
 	}
@@ -82,6 +83,11 @@ public class ParkingSlot {
 	}
 	public void setBicycle(Bicycle bicycle) {
 		this.bicycle = bicycle;
+	}
+
+	@Override
+	public String toString() {
+		return "ParkingSlot " + slotID + ", state:" + state + ", " + bicycle + "";
 	}
 	
 	

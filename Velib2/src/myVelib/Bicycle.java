@@ -7,7 +7,7 @@ public class Bicycle {
 	protected String typeBike;
 	public Bicycle(String typeBike) throws BadBicycleCreationException {
 		super();
-		if (typeBike=="Mecanical" || typeBike=="Electrical"){
+		if (typeBike=="Mechanical" || typeBike=="Electrical"){
 		compteur=compteur+1;
 		bikeID=compteur;
 		this.typeBike = typeBike;
@@ -22,5 +22,10 @@ public class Bicycle {
 	public String getTypeBike() {
 		return typeBike;
 	}
+	@Override
+	public String toString() {
+		return "Bicycle [bikeID=" + bikeID + ", typeBike=" + typeBike + "]";
+	}
+	
 	
 }
