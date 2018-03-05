@@ -54,7 +54,7 @@ public class ParkingSlot {
 			this.setState("Free");
 				Bicycle bike = this.getBicycle();
 				this.setBicycle(null);
-				System.out.println(bike.typeBike+" bike "+bike.bikeID+"has been retrieved from parking slot"+this.slotID);
+				System.out.println(bike.getTypeBike()+" bike "+bike.getBikeID()+"has been retrieved from parking slot"+this.slotID);
 				return bike;		
 			}
 		else {
@@ -69,7 +69,7 @@ public class ParkingSlot {
 		else {
 			this.setState("Occupied");
 			this.bicycle=bike;
-			System.out.println(bike.typeBike+" bike "+bike.bikeID+"has been parked in parking slot"+this.slotID);
+			System.out.println(bike.getTypeBike()+" bike "+bike.getBikeID()+"has been parked in parking slot"+this.slotID);
 			return true;
 		}
 	}

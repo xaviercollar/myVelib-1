@@ -2,10 +2,10 @@ package myVelib;
 
 
 public class Bicycle {
-	protected static Long compteurM=(long) 10000;
-	private static Long compteurE=(long) 80000;
-	protected long bikeID;
-	protected String typeBike;
+	private static Long compteurM=(long) 100000;
+	private static Long compteurE=(long) 800000;
+	private long bikeID;
+	private String typeBike;
 	public Bicycle(String typeBike) throws BadBicycleCreationException {
 		super();
 		if (typeBike=="Mechanical"){

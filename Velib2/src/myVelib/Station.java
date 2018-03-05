@@ -131,7 +131,7 @@ public class Station implements Observable {
 	public boolean availableBikeM() {
 		for (ParkingSlot pS : parkingSlotList) {
 			if (pS.state.equals("Occupied")) {
-				if (pS.bicycle.typeBike.equals("Mechanical")) {
+				if (pS.bicycle.getTypeBike().equals("Mechanical")) {
 				return true;
 				}
 			}
@@ -146,7 +146,7 @@ public class Station implements Observable {
 	public boolean availableBikeE() {
 		for (ParkingSlot pS : parkingSlotList) {
 			if (pS.state.equals("Occupied")) {
-				if (pS.bicycle.typeBike.equals("Electrical")) {
+				if (pS.bicycle.getTypeBike().equals("Electrical")) {
 				return true;
 				}
 			}
