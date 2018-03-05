@@ -7,11 +7,11 @@ import java.util.ArrayList;
  *
  */
 public class ParkingSlot {
-	protected static Long compteur=(long) 0;
-	protected Long slotID;
-	protected String state;
-	protected Bicycle bicycle;
-	protected ArrayList<TimeState> history;
+	private static Long compteur=(long) 0;
+	private Long slotID;
+	private String state;
+	private Bicycle bicycle;
+	private ArrayList<TimeState> history;
 	private Station station;
 	/**
 	 * Ce contructeur peux être amener à renvoyer une erreur dans le cas où le type d'état n'a pas été écrit correctement ou n'existe pas

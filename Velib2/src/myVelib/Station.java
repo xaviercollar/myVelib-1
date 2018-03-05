@@ -114,10 +114,10 @@ public class Station implements Observable {
 		int free = 0;
 		int bikes = 0;
 		for (ParkingSlot pS : parkingSlotList) {
-			if(pS.state.equals("Free")) {
+			if(pS.getState().equals("Free")) {
 				free++;
 			}
-			if(pS.state.equals("Occupied")) {
+			if(pS.getState().equals("Occupied")) {
 				bikes++;
 			}
 		}
@@ -130,8 +130,8 @@ public class Station implements Observable {
 	 */	
 	public boolean availableBikeM() {
 		for (ParkingSlot pS : parkingSlotList) {
-			if (pS.state.equals("Occupied")) {
-				if (pS.bicycle.getTypeBike().equals("Mechanical")) {
+			if (pS.getState().equals("Occupied")) {
+				if (pS.getBicycle().getTypeBike().equals("Mechanical")) {
 				return true;
 				}
 			}
@@ -145,8 +145,8 @@ public class Station implements Observable {
 	 */
 	public boolean availableBikeE() {
 		for (ParkingSlot pS : parkingSlotList) {
-			if (pS.state.equals("Occupied")) {
-				if (pS.bicycle.getTypeBike().equals("Electrical")) {
+			if (pS.getState().equals("Occupied")) {
+				if (pS.getBicycle().getTypeBike().equals("Electrical")) {
 				return true;
 				}
 			}
@@ -192,7 +192,6 @@ public class Station implements Observable {
 		if(this.freeSlots==0) {
 			for(Location loc:incomingRideList) {
 				loc.updateArrival(this);
-				
 			}
 		}
 		

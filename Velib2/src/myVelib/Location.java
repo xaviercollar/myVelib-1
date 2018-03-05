@@ -103,12 +103,12 @@ public class Location implements Observer{
 	}
 	
 	public void computeStart() {
-		double dist =99999999999999999.9;
+		double dist=-1;
 		Station startStation = null;
 		for (Station stat : reseau.getStationList()) {
 			if(stat.state.equals("On service")) {
 				if(stat.availableBikeE()||stat.availableBikeM()) {
-					if (dist>this.start.getDistance(stat.getPosition())) {
+					if (dist<0 || dist>this.start.getDistance(stat.getPosition())) {
 						dist=this.start.getDistance(stat.getPosition());
 						startStation=stat;
 					}
@@ -123,12 +123,12 @@ public class Location implements Observer{
 	}
 	
 	public void computeEnd() {
-		double dist =99999999999999999.9;
+		double dist=-1;
 		Station endStation = null;
 		for (Station stat : reseau.getStationList()) {
 			if(stat.state.equals("On service")) {
 				if(stat.availableParkingSlot()) {
-					if (dist>this.end.getDistance(stat.getPosition())) {
+					if (dist<0 || dist>this.end.getDistance(stat.getPosition())) {
 						dist=this.end.getDistance(stat.getPosition());
 						endStation=stat;					
 					}

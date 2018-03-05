@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
  *
  */
 public class TimeState {
-	protected boolean occupied;
-	protected LocalDateTime start;
+	private boolean occupied;
+	private LocalDateTime start;
 	public TimeState(boolean occupied, LocalDateTime start) {
 		super();
 		this.occupied = occupied;
@@ -21,4 +21,12 @@ public class TimeState {
 	public LocalDateTime getStart() {
 		return start;
 	}
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
+	}
+	public void setStart(LocalDateTime start) {
+		this.start = start;
+	}
+	
+	
 }
