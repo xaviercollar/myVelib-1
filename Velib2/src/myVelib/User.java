@@ -9,13 +9,14 @@ public class User {
 	private int totalTime;
 	private double totalCharges;
 	private int earnedCredits;
-	static Random gen = new Random();
+	static long IDCount=444000000;
 	private Location loc;
 	private Card card;
 	private GPScoord position;
 	
 	public User(String name, String firstName) {
-		this.userID=gen.nextLong();
+		this.userID=IDCount;
+		IDCount++;
 		this.firstName=firstName;
 		this.name=name;
 		this.loc=null;

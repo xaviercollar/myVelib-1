@@ -40,7 +40,6 @@ public class Station implements Observable {
 				this.state = state;
 				this.position = position;
 				this.name = name;
-				this.leavingRideList=new ArrayList<Location>();
 				this.incomingRideList=new ArrayList<Location>();
 			}
 			else {
@@ -109,6 +108,24 @@ public class Station implements Observable {
 		this.freeBikes = freeBikes;
 	}
 	/**
+	 * Method to recompute the number of available parking slots and bikes
+	 */
+	public void calcul() {
+		int free = 0;
+		int bikes = 0;
+		for (ParkingSlot pS : parkingSlotList) {
+			if(pS.state.equals("Free")) {
+				free++;
+			}
+			if(pS.state.equals("Occupied")) {
+				bikes++;
+			}
+		}
+		this.freeBikes=bikes;
+		this.freeSlots=free;
+	}
+	
+	/**
 	 * Method to check if the station currently holds an electrical bike in one of its parking slots.
 	 */	
 	public boolean availableBikeM() {
@@ -152,17 +169,14 @@ public class Station implements Observable {
 	public void addParkingSlot(ParkingSlot pS) {
 		parkingSlotList.add(pS);
 		pS.setStation(this);
+		this.calcul();
 	}
 	
 	public void removeParkingSlot(ParkingSlot pS) {
 		parkingSlotList.remove(pS);
+		this.calcul();
 	}
-	
-	@Override
-	public void registerStartRide(Location loc) {
-		this.leavingRideList.add(loc);		
-	}
-	
+		
 	@Override
 	public void registerEndRide(Location loc) {
 		this.incomingRideList.add(loc);
@@ -170,28 +184,21 @@ public class Station implements Observable {
 	
 	@Override
 	public void removeRide(Location loc) {
-		this.leavingRideList.remove(loc);
 		this.incomingRideList.remove(loc);
 	}
-	@Override
-	public void notifyStartRide() {
-		// TODO Auto-generated method stub
-		
-	}
+
 	@Override
 	public void notifyEndRide() {
-		// TODO Auto-generated method stub
+		if(this.freeSlots==0) {
+			for(Location loc:incomingRideList) {
+				loc.updateArrival(this);
+				
+			}
+		}
 		
 	}
 	@Override
 	public String toString() {
 		return "Station"+ stationID+" "+name+" ("+position+") Parking Slots:" + parkingSlotList;
 	}
-	public void calcul() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
 }

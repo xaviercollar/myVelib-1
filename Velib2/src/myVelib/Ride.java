@@ -3,8 +3,6 @@ package myVelib;
 public class Ride implements Observer {
 	private GPScoord start;
 	private GPScoord end;
-	private boolean hasStarted;
-	
 	
 	/*
 	public void computeStart(Reseau res) {
@@ -60,14 +58,7 @@ public class Ride implements Observer {
 	public void setEnd(GPScoord end) {
 		this.end = end;
 	}
-	@Override
-	public void updateStart(Station start) {
-		if (this.hasStarted==false) {
-			System.out.println("The departure station isn't available anymore.");
-			System.out.println("Please proceed to this new station to get your bike");
-		}
-		
-	}
+	
 	@Override
 	public void updateArrival(Station arrival) {
 		System.out.println("The destination station isn't available anymore.");

@@ -43,7 +43,8 @@ public class ParkingSlot {
 	public void setState(String state) throws BadParkingSlotCreationException {
 		if (state=="Occupied" || state=="Free" ||state=="Broken"){
 			this.state = state;
-			station.calcul()}
+			station.calcul();
+			}
 		else{
 			throw new BadParkingSlotCreationException(state);}
 	}

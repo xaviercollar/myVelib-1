@@ -116,7 +116,6 @@ public class Location implements Observer{
 			}
 		}
 		if(startStation!=null) { 
-			startStation.registerStartRide(this);
 			this.departure=startStation;
 		}
 		else
@@ -144,15 +143,6 @@ public class Location implements Observer{
 			System.out.println("No station fitting your criteria is availabale for arrival, please try again later or change your ride settings");
 	}
 	
-	@Override
-	public void updateStart(Station departure) {
-		if (this.hasStarted==false) {
-			System.out.println("The departure station isn't available anymore.");
-			System.out.println("Please proceed to this new station to get your bike");
-			this.computeStart();
-		}
-	}
-
 	@Override
 	public void updateArrival(Station arrival) {
 		System.out.println("The destination station isn't available anymore.");
